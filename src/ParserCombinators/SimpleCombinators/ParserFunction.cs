@@ -12,7 +12,11 @@ namespace SimpleCombinators
         public T Value { get; }
         public ForkableScanner Rest { get; }
 
-        public Result(T value, ForkableScanner rest) { Value = value; Rest = rest; }
+        public Result(T value, ForkableScanner rest)
+        {
+            Value = value;
+            Rest = rest;
+        }
     }
 
     public delegate Result<T> Parse<T>(ForkableScanner s);
