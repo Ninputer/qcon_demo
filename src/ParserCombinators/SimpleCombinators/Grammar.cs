@@ -18,7 +18,7 @@ namespace SimpleCombinators
                 if (l.TokenIndex == token.Index)
                 {
                     return new Result<string>(
-                        scanner.Read().Value.Content);
+                        l.Value.Content, scanner);
                 }
                 throw new Exception(
                     "Expect token: " + token.Description +
@@ -26,11 +26,14 @@ namespace SimpleCombinators
             };
         }
 
+        //X → ε
         public static Parse<T> Empty<T>(T value)
         {
-            return scanner => new Result<T>(value);
+            return scanner => new Result<T>(value, scanner);
         }
 
+        //X → A
+        //X → B
         public static Parse<T> Union<T>(
             this Parse<T> parse1, 
             Parse<T> parse2)
@@ -41,16 +44,13 @@ namespace SimpleCombinators
                 {
                     return parse1(scanner);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    var r = parse2(scanner);
-
-                    if (r == null) throw;
-                    return r;
+                    return parse2(scanner);
                 }
             };
         }
-
+        //X → A B
         public static Parse<TR> SelectMany<T1, T2, TR>(
             this Parse<T1> parse1, 
             Func<T1, Parse<T2>> parse2Selector, 
@@ -59,9 +59,24 @@ namespace SimpleCombinators
             return scanner =>
             {
                 var r1 = parse1(scanner);
-                var r2 = parse2Selector(r1.Value)(scanner);
+                var r2 = parse2Selector(r1.Value)(r1.Rest);
                 return new Result<TR>(
-                    resultSelector(r1.Value, r2.Value));
+                    resultSelector(r1.Value, r2.Value),
+                    r2.Rest);
+            };
+        }
+
+        //X → A
+        public static Parse<TR> Select<T, TR>(
+            this Parse<T> parse1,
+            Func<T, TR> resultSelector)
+        {
+            return scanner =>
+            {
+                var r = parse1(scanner);
+                return new Result<TR>(
+                   resultSelector(r.Value),
+                   r.Rest);
             };
         }
     } 

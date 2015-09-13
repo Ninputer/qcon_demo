@@ -10,6 +10,8 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
+            SimpleCombinatorsTest test = new SimpleCombinatorsTest();
+            test.Test();
         }
     }
 }

@@ -9,8 +9,10 @@ namespace SimpleCombinators
 {
     public class Result<T>
     {
-        public T Value { get; set; }
-        public Result(T value) { Value = value; }
+        public T Value { get; }
+        public ForkableScanner Rest { get; }
+
+        public Result(T value, ForkableScanner rest) { Value = value; Rest = rest; }
     }
 
     public delegate Result<T> Parse<T>(ForkableScanner s);
