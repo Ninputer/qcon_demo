@@ -7,7 +7,7 @@ using VBF.Compilers.Scanners;
 
 namespace CpsCombinators
 {
-    class Grammar
+    public static class Grammar
     {
         public static Result<TFuture> Best<TFuture>(Result<TFuture> parse1, Result<TFuture> parse2)
         {
