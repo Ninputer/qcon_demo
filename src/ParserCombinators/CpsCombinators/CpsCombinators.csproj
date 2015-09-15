@@ -4,17 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{67117DF1-18DD-40EF-A9A8-112EF07AE0D6}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{E63C3DCC-E05B-417C-AA49-F3F58FE0124B}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestConsole</RootNamespace>
-    <AssemblyName>TestConsole</AssemblyName>
+    <RootNamespace>CpsCombinators</RootNamespace>
+    <AssemblyName>CpsCombinators</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -51,23 +48,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="AlternationProduction.cs" />
+    <Compile Include="ConcatenationProduction.cs" />
+    <Compile Include="EmptyProduction.cs" />
+    <Compile Include="Grammar.cs" />
+    <Compile Include="MappingProduction.cs" />
+    <Compile Include="ParserFunction.cs" />
+    <Compile Include="Production.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SimpleCombinatorsTest.cs" />
+    <Compile Include="Terminal.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CpsCombinators\CpsCombinators.csproj">
-      <Project>{e63c3dcc-e05b-417c-aa49-f3f58fe0124b}</Project>
-      <Name>CpsCombinators</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimpleCombinators\SimpleCombinators.csproj">
-      <Project>{16f45977-77d7-4528-b6b7-53072538b7bc}</Project>
-      <Name>SimpleCombinators</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
