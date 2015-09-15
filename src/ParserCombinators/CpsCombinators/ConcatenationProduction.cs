@@ -27,7 +27,7 @@ namespace CpsCombinators
             return scanner =>
                 m_p1.BuildParse(
                     value1 => m_p2Selector(value1).BuildParse(
-                        value2 => future(m_resultSelector(value1, value2)))(scanner);
+                        value2 => future(m_resultSelector(value1, value2))))(scanner);
         }
     }
 }
