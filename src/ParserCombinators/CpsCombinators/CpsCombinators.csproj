@@ -51,8 +51,10 @@
     <Compile Include="AlternationProduction.cs" />
     <Compile Include="ConcatenationProduction.cs" />
     <Compile Include="EmptyProduction.cs" />
+    <Compile Include="EosTerminal.cs" />
     <Compile Include="Grammar.cs" />
     <Compile Include="MappingProduction.cs" />
+    <Compile Include="ParserRunner.cs" />
     <Compile Include="ParserFunction.cs" />
     <Compile Include="Production.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

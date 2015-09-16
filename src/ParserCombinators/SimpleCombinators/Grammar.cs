@@ -79,5 +79,21 @@ namespace SimpleCombinators
                    r.Rest);
             };
         }
+
+        public static Parse<string> Eos()
+        {
+            return scanner =>
+            {
+                var l = scanner.Read();
+                if (l.IsEndOfStream)
+                {
+                    return new Result<string>(
+                        l.Value.Content, scanner);
+                }
+                throw new Exception(
+                    "Expect end of stream" +
+                    " at: " + l.Value.Span.StartLocation);
+            };
+        }
     } 
 }

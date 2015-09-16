@@ -25,6 +25,9 @@ namespace CpsCombinators
         }
         public override T GetResult() => 
             m_nextResultFuture().GetResult();
+
+        public Result<T> GetNextResult() =>
+            m_nextResultFuture();
     }
 
     // 解析结束时的结果
