@@ -23,8 +23,11 @@ namespace CpsCombinators
             IsValid = isValid;
             m_nextResultFuture = nextResultFuture;
         }
-        public override T GetResult() => 
-            m_nextResultFuture().GetResult();
+        public override T GetResult()
+        {
+            if (!IsValid) throw new Exception("Syntax Error");
+            return m_nextResultFuture().GetResult();
+        }
 
         public Result<T> GetNextResult() =>
             m_nextResultFuture();

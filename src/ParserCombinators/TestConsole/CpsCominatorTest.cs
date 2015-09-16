@@ -96,7 +96,7 @@ namespace TestConsole
             ForkableScannerBuilder fsb = new ForkableScannerBuilder(m_scannerInfo);
             fsb.SetTriviaTokens(SPACE.Index);
 
-            SourceReader sr = new SourceReader(new StringReader("1 + 2 * 3"));
+            SourceReader sr = new SourceReader(new StringReader("1 + 2 * 3)"));
             var scanner = fsb.Create(sr);
 
             var runner = new ParserRunner<int>(production);
