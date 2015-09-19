@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErrorRecoveryCominatorTest.cs" />
     <Compile Include="CpsCominatorTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

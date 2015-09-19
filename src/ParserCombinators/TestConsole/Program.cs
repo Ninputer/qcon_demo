@@ -15,6 +15,9 @@ namespace TestConsole
 
             CpsCombinatorsTest test2 = new CpsCombinatorsTest();
             test2.Test();
+
+            ErrorRecoveryCombinatorsTest test3 = new ErrorRecoveryCombinatorsTest();
+            test3.Test();
         }
     }
 }
