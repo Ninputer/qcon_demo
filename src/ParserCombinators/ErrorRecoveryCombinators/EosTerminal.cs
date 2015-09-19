@@ -11,12 +11,23 @@ namespace ErrorRecoveryCombinators
     {
         public override Parse<TFuture> BuildParse<TFuture>(Future<string, TFuture> future)
         {
-            return scanner =>
+            Parse<TFuture> parse = null;
+            parse = scanner =>
             {
                 Lexeme l = scanner.Read();
 
-                return new StepResult<TFuture>(l.IsEndOfStream, () => future(l.Value.Content)(scanner));
+                if (l.IsEndOfStream)
+                {
+                    return new StepResult<TFuture>(0, () => future(l.Value.Content)(scanner));
+                }
+
+                return new StepResult<TFuture>(
+                    1,
+                    () => parse(scanner),
+                    Grammar.RecoverByDeletion(l));
             };
+
+            return parse;
         }
     }
 }

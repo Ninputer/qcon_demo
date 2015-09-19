@@ -47,6 +47,20 @@ namespace ErrorRecoveryCombinators
 
         }
 
+        public static SyntaxError RecoverByDeletion(Lexeme deleted)
+        {
+            return new SyntaxError(SyntaxError.UnexpectedToken,
+                "Unexpected token: " + deleted.Value.Content,
+                deleted.Value.Span);
+        }
+
+        public static SyntaxError RecoverByInsertion(Lexeme inserted)
+        {
+            return new SyntaxError(SyntaxError.MissingToken,
+                "Missing token: " + inserted.Value.Content,
+                inserted.Value.Span);
+        }
+
         //X → ‘a’
         public static ProductionBase<string> AsTerminal(this Token token)
         {

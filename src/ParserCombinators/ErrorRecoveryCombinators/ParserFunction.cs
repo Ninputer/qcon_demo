@@ -11,27 +11,33 @@ namespace ErrorRecoveryCombinators
     // 结果类的基类
     public abstract class Result<T>
     {
-        public abstract T GetResult();
+        public abstract T GetResult(IList<SyntaxError> errors);
     }
 
     // 解析阶段的结果
     public class StepResult<T> : Result<T>
     {
         private Func<Result<T>> m_nextResultFuture;
-        public bool IsValid { get; }
-        public StepResult(bool isValid, Func<Result<T>> nextResultFuture)
+        public int Cost { get; }
+        private SyntaxError m_error;
+        public StepResult(int cost, Func<Result<T>> nextResultFuture, SyntaxError err = null)
         {
-            IsValid = isValid;
+            Cost = cost;
             m_nextResultFuture = nextResultFuture;
+            m_error = err;
         }
-        public override T GetResult()
+        public override T GetResult(IList<SyntaxError> errors)
         {
-            if (!IsValid) throw new Exception("Syntax Error");
-            return m_nextResultFuture().GetResult();
+            if (m_error != null)
+            {
+                errors.Add(m_error);
+            }
+            return m_nextResultFuture().GetResult(errors);
         }
 
         public Result<T> GetNextResult() =>
             m_nextResultFuture();
+
     }
 
     // 解析结束时的结果
@@ -39,7 +45,7 @@ namespace ErrorRecoveryCombinators
     {
         private T m_result;
         public StopResult(T result) { m_result = result; }
-        public override T GetResult() => m_result;
+        public override T GetResult(IList<SyntaxError> errors) => m_result;
     }
 
     public delegate Result<T> Parse<T>(ForkableScanner s);

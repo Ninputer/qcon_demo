@@ -58,6 +58,7 @@
     <Compile Include="ParserFunction.cs" />
     <Compile Include="Production.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SyntaxError.cs" />
     <Compile Include="Terminal.cs" />
   </ItemGroup>
   <ItemGroup>
