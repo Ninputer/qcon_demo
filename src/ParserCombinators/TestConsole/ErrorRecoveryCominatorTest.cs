@@ -43,7 +43,7 @@ namespace TestConsole
         {
             ProductionBase<int> T = null;
 
-            ProductionBase<int> Num = from n in NUMBER.AsTerminal() select ParseAnyWay(n);
+            ProductionBase<int> Num = from n in NUMBER.AsTerminal() select ParseInt32AnyWay(n);
 
             ProductionBase<int> U = Grammar.Union(
                 Num,
@@ -88,7 +88,7 @@ namespace TestConsole
             return E;
         }
 
-        int ParseAnyWay(string str)
+        int ParseInt32AnyWay(string str)
         {
             int a = 0;
             Int32.TryParse(str, out a);
