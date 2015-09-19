@@ -41,14 +41,14 @@ namespace TestConsole
 
         private ProductionBase<int> SetUpParser()
         {
-            ProductionBase<int> E = null;
+            ProductionBase<int> T = null;
 
             ProductionBase<int> Num = from n in NUMBER.AsTerminal() select Int32.Parse(n);
 
             ProductionBase<int> U = Grammar.Union(
                 Num,
                 from lp in LEFT_PARENTHESIS.AsTerminal()
-                from exp in E
+                from exp in T
                 from rp in RIGHT_PARENTHESIS.AsTerminal()
                 select exp
                 );
@@ -76,12 +76,12 @@ namespace TestConsole
                 Grammar.Empty(Enumerable.Empty<int>())
                 );
 
-            ProductionBase<int> T =
+            T =
                 from f in F
                 from t1 in T1
                 select t1.Aggregate(f, (a, i) => a + i);
 
-            E = from t in T
+            ProductionBase<int> E = from t in T
                 from eos in Grammar.Eos()
                 select t;
 
@@ -96,7 +96,7 @@ namespace TestConsole
             ForkableScannerBuilder fsb = new ForkableScannerBuilder(m_scannerInfo);
             fsb.SetTriviaTokens(SPACE.Index);
 
-            SourceReader sr = new SourceReader(new StringReader("1 + 2 * 3)"));
+            SourceReader sr = new SourceReader(new StringReader("1 + 2 * 3"));
             var scanner = fsb.Create(sr);
 
             var runner = new ParserRunner<int>(production);

@@ -41,14 +41,14 @@ namespace TestConsole
 
         private Parse<int> SetUpParser()
         {
-            Parse<int> E = null;
+            Parse<int> T = null;
 
             Parse<int> Num = from n in NUMBER.AsTerminal() select Int32.Parse(n);
 
             Parse<int> U = Grammar.Union(
                 Num,
                 from lp in LEFT_PARENTHESIS.AsTerminal()
-                from exp in E
+                from exp in T
                 from rp in RIGHT_PARENTHESIS.AsTerminal()
                 select exp
                 );
@@ -76,12 +76,12 @@ namespace TestConsole
                 Grammar.Empty(Enumerable.Empty<int>())
                 );
 
-            Parse<int> T =
+            T =
                 from f in F
                 from t1 in T1
                 select t1.Aggregate(f, (a, i) => a + i);
 
-            E = from t in T
+            Parse<int> E = from t in T
                 from eos in Grammar.Eos()
                 select t;
 
