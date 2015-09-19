@@ -16,11 +16,11 @@ namespace ErrorRecoveryCombinators
             m_parseFunc = parseFunc.BuildParse(FinalFuture);
         }
 
-        public T Execute(ForkableScanner scanner)
+        public T Execute(ForkableScanner scanner, IList<SyntaxError> errors)
         {
             var result = m_parseFunc(scanner);
 
-            return result.GetResult();
+            return result.GetResult(errors);
         }
 
         private Parse<T> FinalFuture(T value)

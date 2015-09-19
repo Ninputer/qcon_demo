@@ -26,23 +26,19 @@ namespace ErrorRecoveryCombinators
             StepResult<T> step1 = r1 as StepResult<T>;
             StepResult<T> step2 = r2 as StepResult<T>;
 
-            if (step1.IsValid && !step2.IsValid)
+            if (step1.Cost < step2.Cost)
             {
                 return step1;
             }
-            else if (step2.IsValid && !step1.IsValid)
+            else if (step1.Cost > step2.Cost)
             {
                 return step2;
             }
-            else if (!step1.IsValid && !step2.IsValid)
-            {
-                // 两个都不合法，取分支1的错误
-                return step1;
-            }
             else
             {
-                // 两个都合法，再多Parse一步再做决定
-                return new StepResult<T>(true, () => Best(step1.GetNextResult(), step2.GetNextResult()));
+                // 两个错误等级相同，再多Parse一步再做决定
+                return new StepResult<T>(Math.Max(step1.Cost, step2.Cost), 
+                    () => Best(step1.GetNextResult(), step2.GetNextResult()));
             }
 
         }
