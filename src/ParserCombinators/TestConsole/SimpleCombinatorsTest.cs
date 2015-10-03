@@ -25,9 +25,9 @@ namespace TestConsole
 
         private void SetUpScanner()
         {
-            var lexion = new Lexicon();
+            var lexcion = new Lexicon();
 
-            var lexer = lexion.Lexer;
+            var lexer = lexcion.Lexer;
 
             PLUS = lexer.DefineToken(RE.Symbol('+'));
             ASTERISK = lexer.DefineToken(RE.Symbol('*'));
@@ -36,7 +36,7 @@ namespace TestConsole
             NUMBER = lexer.DefineToken(RE.Range('0', '9').Many1(), "number");
             SPACE = lexer.DefineToken(RE.Symbol(' ').Many1());
             
-            m_scannerInfo = lexion.CreateScannerInfo();
+            m_scannerInfo = lexcion.CreateScannerInfo();
         }
 
         private Parse<int> SetUpParser()
