@@ -11,9 +11,9 @@ namespace TestConsole
     using VBF.Compilers.Scanners;
     using RE = VBF.Compilers.Scanners.RegularExpression;
 
-    class GLRCombinatorsTest : ParserBase<int>
+    class GLRCombinatorsTestParser : ParserBase<int>
     {
-        public GLRCombinatorsTest(CompilationErrorManager em) : base(em) { }
+        public GLRCombinatorsTestParser(CompilationErrorManager em) : base(em) { }
 
         private Token PLUS;
         private Token ASTERISK;
@@ -32,13 +32,15 @@ namespace TestConsole
             RIGHT_PARENTHESIS = lexer.DefineToken(RE.Symbol(')'));
             NUMBER = lexer.DefineToken(RE.Range('0', '9').Many1(), "number");
             SPACE = lexer.DefineToken(RE.Symbol(' ').Many1());
+
+            triviaTokens.Add(SPACE);
         }
 
         protected override ProductionBase<int> OnDefineGrammar()
         {
             var T = new Production<int>();
 
-            ProductionBase<int> Num = from n in NUMBER select Int32.Parse(n.Value.Content);
+            ProductionBase<int> Num = from n in NUMBER select ParseInt32AnyWay(n);
 
             ProductionBase<int> U =
                 Num |
@@ -50,23 +52,46 @@ namespace TestConsole
             var F = new Production<int>();
             F.Rule =
                 U |
-                from left in F
+                from f in F
                 from op in ASTERISK
-                from right in U
-                select left * right;
+                from u in U
+                select f * u;
 
             T.Rule =
                 F |
-                from left in T
+                from t in T
                 from op in PLUS
-                from right in F
-                select left * right;
+                from f in F
+                select t + f;
 
             ProductionBase<int> E = from t in T
                                     from eos in Grammar.Eos()
                                     select t;
 
             return E;
+        }
+
+        int ParseInt32AnyWay(Lexeme str)
+        {
+            int a = 0;
+            Int32.TryParse(str.Value.Content, out a);
+
+            return a;
+        }
+    }
+
+    class GLRCombinatorsTest
+    {
+        public void Test()
+        {
+            CompilationErrorManager em = new CompilationErrorManager();
+            var parser = new GLRCombinatorsTestParser(em);
+
+            var errList = em.CreateErrorList();
+
+            var result = parser.Parse("1 + 2 * 3", errList);
+
+            ;
         }
     }
 }

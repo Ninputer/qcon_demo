@@ -18,6 +18,9 @@ namespace TestConsole
 
             ErrorRecoveryCombinatorsTest test3 = new ErrorRecoveryCombinatorsTest();
             test3.Test();
+
+            GLRCombinatorsTest test4 = new GLRCombinatorsTest();
+            test4.Test();
         }
     }
 }
