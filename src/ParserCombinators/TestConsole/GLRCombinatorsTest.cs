@@ -82,16 +82,34 @@ namespace TestConsole
 
     class GLRCombinatorsTest
     {
-        public void Test()
+        public void Test(SourceReader sr)
         {
+            Console.WriteLine("=============== GLR Parser Combinators ==================");
+
             CompilationErrorManager em = new CompilationErrorManager();
             var parser = new GLRCombinatorsTestParser(em);
 
             var errList = em.CreateErrorList();
 
-            var result = parser.Parse("1 + 2 * 3", errList);
+            var result = parser.Parse(sr, errList);
 
-            ;
+            if (errList.Count == 0)
+            {
+                Console.WriteLine("Result: {0}", result);
+            }
+            else
+            {
+                Console.WriteLine("Parse Errors:");
+                foreach (var err in
+                                from e in errList orderby e.ErrorPosition.StartLocation select e)
+                {
+                    Console.WriteLine(err.ToString());
+                }
+            }
+
+
+            Console.WriteLine();
+            Console.WriteLine();
         }
     }
 }

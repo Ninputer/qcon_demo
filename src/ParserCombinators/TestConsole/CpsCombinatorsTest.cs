@@ -88,22 +88,33 @@ namespace TestConsole
             return E;
         }
 
-        public void Test()
+        public void Test(SourceReader sr)
         {
+            Console.WriteLine("=============== CPS Parser Combinators ==================");
+
             SetUpScanner();
             var production = SetUpParser();
 
             ForkableScannerBuilder fsb = new ForkableScannerBuilder(m_scannerInfo);
             fsb.SetTriviaTokens(SPACE.Index);
 
-            SourceReader sr = new SourceReader(new StringReader("1 + 2 * 3"));
             var scanner = fsb.Create(sr);
 
             var runner = new ParserRunner<int>(production);
 
-            var result = runner.Execute(scanner);
+            try
+            {
+                var result = runner.Execute(scanner);
+                Console.WriteLine("Result: {0}", result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Parse Errors:");
+                Console.WriteLine(ex.Message);
+            }
 
-            ;
+            Console.WriteLine();
+            Console.WriteLine();
         }
     }
 }

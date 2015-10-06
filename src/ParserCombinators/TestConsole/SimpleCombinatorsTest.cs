@@ -35,7 +35,7 @@ namespace TestConsole
             RIGHT_PARENTHESIS = lexer.DefineToken(RE.Symbol(')'));
             NUMBER = lexer.DefineToken(RE.Range('0', '9').Many1(), "number");
             SPACE = lexer.DefineToken(RE.Symbol(' ').Many1());
-            
+
             m_scannerInfo = lexcion.CreateScannerInfo();
         }
 
@@ -82,26 +82,36 @@ namespace TestConsole
                 select t1.Aggregate(f, (a, i) => a + i);
 
             Parse<int> E = from t in T
-                from eos in Grammar.Eos()
-                select t;
+                           from eos in Grammar.Eos()
+                           select t;
 
             return E;
         }
 
-        public void Test()
+        public void Test(SourceReader sr)
         {
+            Console.WriteLine("=============== Simple Parser Combinators ===============");
             SetUpScanner();
             var parse = SetUpParser();
 
             ForkableScannerBuilder fsb = new ForkableScannerBuilder(m_scannerInfo);
             fsb.SetTriviaTokens(SPACE.Index);
 
-            SourceReader sr = new SourceReader(new StringReader("1 + 2 * 3"));
+            
             var scanner = fsb.Create(sr);
 
-            var result = parse(scanner);
-
-            ;
+            try
+            {
+                var result = parse(scanner);
+                Console.WriteLine("Result: {0}", result.Value);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Parse Errors:");
+                Console.WriteLine(ex.Message);
+            }
+            Console.WriteLine();
+            Console.WriteLine();
         }
     }
 }

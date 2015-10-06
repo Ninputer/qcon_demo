@@ -96,15 +96,16 @@ namespace TestConsole
             return a;
         }
 
-        public void Test()
+        public void Test(SourceReader sr)
         {
+            Console.WriteLine("=============== Error Recovery Parser Combinators ======="); 
+
             SetUpScanner();
             var production = SetUpParser();
 
             ForkableScannerBuilder fsb = new ForkableScannerBuilder(m_scannerInfo);
             fsb.SetTriviaTokens(SPACE.Index);
 
-            SourceReader sr = new SourceReader(new StringReader("1 + 2 * 3"));
             var scanner = fsb.Create(sr);
 
             var runner = new ParserRunner<int>(production);
@@ -112,7 +113,24 @@ namespace TestConsole
             List<SyntaxError> errors = new List<SyntaxError>();
             var result = runner.Execute(scanner, errors);
 
-            ;
+            if (errors.Count == 0)
+            {
+                Console.WriteLine("Result: {0}", result);
+            }
+            else
+            {
+                Console.WriteLine("Parse Errors:");
+                foreach (var err in errors)
+                {
+                    Console.WriteLine("{0}:{1} {2}",
+                        err.Code,
+                        err.Description,
+                        err.Location.StartLocation);
+                }
+            }
+
+            Console.WriteLine();
+            Console.WriteLine();
         }
     }
 }

@@ -18,16 +18,19 @@ namespace ErrorRecoveryCombinators
     // 解析阶段的结果
     public class StepResult<T> : Result<T>
     {
-        private Func<Result<T>> m_nextResultFuture;
         public int Cost { get; }
+
+        private Func<Result<T>> m_nextResultFuture;
         private SyntaxError m_error;
+        private Result<T> m_nextResult;
+
         public StepResult(int cost, Func<Result<T>> nextResultFuture, SyntaxError err = null)
         {
             Cost = cost;
             m_nextResultFuture = nextResultFuture;
             m_error = err;
 
-            MyErrors = err == null ? Enumerable.Empty<SyntaxError>() : new[] { err };
+            MyErrors = Enumerable.Empty<SyntaxError>();
         }
         public override T GetResult(IList<SyntaxError> errors)
         {
@@ -36,9 +39,19 @@ namespace ErrorRecoveryCombinators
 
         public Result<T> GetNextResult()
         {
-            var nextResult = m_nextResultFuture();
-            nextResult.MyErrors = MyErrors.Concat(nextResult.MyErrors);
-            return nextResult;
+            if (m_nextResult == null)
+            {
+                m_nextResult = m_nextResultFuture();
+                m_nextResult.MyErrors = 
+                    MyErrors.Concat(m_nextResult.MyErrors);
+                if (m_error != null)
+                {
+                    m_nextResult.MyErrors = 
+                        m_nextResult.MyErrors.Concat(new[] { m_error });
+                }
+            }
+            
+            return m_nextResult;
         }
 
     }
