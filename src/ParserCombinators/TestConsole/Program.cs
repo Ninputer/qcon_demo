@@ -12,7 +12,7 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
-            string input = "1 +++ 2 *** 3";
+            string input = "1 + 2 * 3";
             SourceReader sr = new SourceReader(new StringReader(input));
             var startPoint = sr.CreateRevertPoint();
 
