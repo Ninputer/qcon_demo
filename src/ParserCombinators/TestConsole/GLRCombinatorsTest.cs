@@ -42,6 +42,7 @@ namespace TestConsole
 
             ProductionBase<int> Num = from n in NUMBER select ParseInt32AnyWay(n);
 
+            //U → ‘[0..9]+’ | ‘(’ T ‘)’
             ProductionBase<int> U =
                 Num |
                 from lp in LEFT_PARENTHESIS
@@ -49,6 +50,7 @@ namespace TestConsole
                 from rp in RIGHT_PARENTHESIS
                 select exp;
 
+            //F → U | F ‘*’ U
             var F = new Production<int>();
             F.Rule =
                 U |
@@ -57,6 +59,7 @@ namespace TestConsole
                 from u in U
                 select f * u;
 
+            //T → F | T ‘+’ F
             T.Rule =
                 F |
                 from t in T
@@ -64,6 +67,7 @@ namespace TestConsole
                 from f in F
                 select t + f;
 
+            //E → T$
             ProductionBase<int> E = from t in T
                                     from eos in Grammar.Eos()
                                     select t;

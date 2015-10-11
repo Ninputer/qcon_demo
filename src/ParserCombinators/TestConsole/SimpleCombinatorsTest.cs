@@ -45,6 +45,7 @@ namespace TestConsole
 
             Parse<int> Num = from n in NUMBER.AsTerminal() select Int32.Parse(n);
 
+            //U → ‘[0..9]+’ | ‘(’ T ‘)’  
             Parse<int> U = Grammar.Union(
                 Num,
                 from lp in LEFT_PARENTHESIS.AsTerminal()
@@ -53,6 +54,7 @@ namespace TestConsole
                 select exp
                 );
 
+            //F → U F1
             Parse<IEnumerable<int>> F1 = null;
             F1 = Grammar.Union(
                 from op in ASTERISK.AsTerminal()
@@ -62,11 +64,13 @@ namespace TestConsole
                 Grammar.Empty(Enumerable.Empty<int>())
                 );
 
+            //F1 → ‘*’ U F1 | ε
             Parse<int> F =
                 from u in U
                 from f1 in F1
                 select f1.Aggregate(u, (a, i) => a * i);
 
+            //T → F T1
             Parse<IEnumerable<int>> T1 = null;
             T1 = Grammar.Union(
                 from op in PLUS.AsTerminal()
@@ -76,11 +80,13 @@ namespace TestConsole
                 Grammar.Empty(Enumerable.Empty<int>())
                 );
 
+            //T1 → ‘+’ F T1 | ε
             T =
                 from f in F
                 from t1 in T1
                 select t1.Aggregate(f, (a, i) => a + i);
 
+            //E → T$
             Parse<int> E = from t in T
                            from eos in Grammar.Eos()
                            select t;
@@ -97,7 +103,7 @@ namespace TestConsole
             ForkableScannerBuilder fsb = new ForkableScannerBuilder(m_scannerInfo);
             fsb.SetTriviaTokens(SPACE.Index);
 
-            
+
             var scanner = fsb.Create(sr);
 
             try

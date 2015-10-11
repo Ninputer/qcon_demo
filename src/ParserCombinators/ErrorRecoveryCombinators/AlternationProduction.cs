@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ErrorRecoveryCombinators
+﻿namespace ErrorRecoveryCombinators
 {
+    //X → A | B
     public class AlternationProduction<T> : ProductionBase<T>
     {
         private ProductionBase<T> m_p1;

@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CpsCombinators
 {
+    //X → A
     public class MappingProduction<T, TR> : ProductionBase<TR>
     {
         private ProductionBase<T> m_p;

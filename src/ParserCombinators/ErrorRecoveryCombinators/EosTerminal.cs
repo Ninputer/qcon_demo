@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using VBF.Compilers.Scanners;
+﻿using VBF.Compilers.Scanners;
 
 namespace ErrorRecoveryCombinators
 {
+    //X → $
     public class EosTerminal : ProductionBase<string>
     {
         public override Parse<TFuture> BuildParse<TFuture>(Future<string, TFuture> future)

@@ -7,6 +7,7 @@ using VBF.Compilers.Scanners;
 
 namespace ErrorRecoveryCombinators
 {
+    //X → ‘a’
     public class Terminal : ProductionBase<string>
     {
         private Token m_token;

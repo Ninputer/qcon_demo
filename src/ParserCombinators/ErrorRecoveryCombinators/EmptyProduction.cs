@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ErrorRecoveryCombinators
+﻿namespace ErrorRecoveryCombinators
 {
+    //X → ε
     public class EmptyProduction<T> : ProductionBase<T>
     {
         private T m_value;

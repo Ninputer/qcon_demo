@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ErrorRecoveryCombinators
 {
+    //X → A B
     public class ConcatenationProduction<T1, T2, TR> : ProductionBase<TR>
     {
         private ProductionBase<T1> m_p1;

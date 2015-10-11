@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VBF.Compilers.Scanners;
 
 namespace SimpleCombinators
@@ -32,8 +28,7 @@ namespace SimpleCombinators
             return scanner => new Result<T>(value, scanner);
         }
 
-        //X → A
-        //X → B
+        //X → A | B
         public static Parse<T> Union<T>(
             this Parse<T> parse1, 
             Parse<T> parse2)
@@ -80,6 +75,7 @@ namespace SimpleCombinators
             };
         }
 
+        //X → $
         public static Parse<string> Eos()
         {
             return scanner =>
